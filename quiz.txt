@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Special</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #FFDDFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            transition: all 0.5s ease-in-out;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .yes {
+            background-color: #FF69B4;
+            color: white;
+        }
+        .no {
+            background-color: #FF4444;
+            color: white;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="question-box">
+        <img src="https://cdn.pixabay.com/photo/2018/07/08/19/16/cat-3529111_1280.png" alt="Cute Cat">
+        <h2 id="question">Will you be my valentine, pineapple 🍍??</h2>
+        <button class="yes" onclick="nextQuestion('yes')">Yes</button>
+        <button class="no" id="no-btn" onclick="nextQuestion('no')">No</button>
+    </div>
+    <script>
+        let step = 0;
+        function nextQuestion(answer) {
+            const questionBox = document.getElementById("question-box");
+            const question = document.getElementById("question");
+            const noBtn = document.getElementById("no-btn");
+            
+            if (answer === 'yes') {
+                step++;
+                if (step === 1) {
+                    question.innerHTML = "Where do you wanna go out on Feb 14 😭😭?";
+                    questionBox.innerHTML += `
+                        <button class="yes" onclick="nextQuestion('coffee')">Coffee</button>
+                        <button class="yes" onclick="nextQuestion('go-karting')">Go Karting</button>
+                        <button class="yes" onclick="nextQuestion('restaurant')">Restaurant</button>
+                        <button class="yes" onclick="nextQuestion('hamleys')">Hamleys {u gonna buy me Hotwheels}</button>
+                    `;
+                } else if (step === 2) {
+                    question.innerHTML = "You want a Kinderjoy, don't you??";
+                    questionBox.innerHTML = `<button class="yes" onclick="nextQuestion('yes')">Yes</button>`;
+                }
+            } else if (answer === 'no') {
+                if (step === 0) {
+                    question.innerHTML = "You want a Kinderjoy, don't you??";
+                    noBtn.style.position = "absolute";
+                    moveNoButton(noBtn);
+                } else {
+                    question.innerHTML = "Aren't you my cutuu😭😭??";
+                    questionBox.innerHTML = `<button class="yes" onclick="nextQuestion('yes')" style="font-size: 24px;">Yes</button>`;
+                }
+            } else if (answer === 'coffee' || answer === 'go-karting' || answer === 'restaurant' || answer === 'hamleys') {
+                question.innerHTML = "You want a Kinderjoy, don't you??";
+                questionBox.innerHTML = `<button class="yes" onclick="nextQuestion('yes')">Yes</button>`;
+            }
+        }
+
+        function moveNoButton(button) {
+            let count = 0;
+            let interval = setInterval(() => {
+                button.style.top = Math.random() * window.innerHeight + "px";
+                button.style.left = Math.random() * window.innerWidth + "px";
+                count++;
+                if (count === 5) {
+                    clearInterval(interval);
+                    document.getElementById("question").innerHTML = "Aren't you my cutuu😭😭??";
+                    document.getElementById("question-box").innerHTML += `<button class="yes" onclick="nextQuestion('yes')" style="font-size: 24px;">Yes</button>`;
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>
